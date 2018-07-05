@@ -1,3 +1,5 @@
+var path = require('path');
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
@@ -7,7 +9,7 @@ const config = {
         path: __dirname + "/public",
         filename: 'index.js'
     },
-    devtool: 'inline-source-map',
+    devtool: 'hidden-source-map',
     devServer: {
         contentBase: './public',
         inline: true,
@@ -31,7 +33,7 @@ const config = {
                         loader: 'style-loader'//support @import and url(...) to implement the require()
                     }, {
                         loader: 'css-loader', //add css style to js file
-                        options:{
+                        options: {
                             //modules: true, // specify to true that css will define to a module which we can reference by module grammar.
                             //localIdentName: '[name]__[local]--[hash:base64:5]' //specify the format of css class name
                         }
@@ -39,7 +41,11 @@ const config = {
             }
         ]
     },
-    plugins:[
+    resolve: {
+        modules: [__dirname, 'src', 'node_modules'],
+        extensions: ['*', '.js', '.jsx'],
+    },
+    plugins: [
         new HtmlWebpackPlugin({
             template: __dirname + "/src/index.tmpl.html"
         })
